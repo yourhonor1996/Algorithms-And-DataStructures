@@ -56,7 +56,7 @@ class LinkedList:
 
     @property
     def is_empty(self):
-        return self.first == None
+        return self.first is None
 
     def __repr__(self) -> str:
         results = []
@@ -87,7 +87,7 @@ class LinkedList:
         i = 1
         while True:
             current.next = previous
-            if next_item == None:
+            if next_item is None:
                 break
             previous = current
             current = next_item
@@ -109,7 +109,7 @@ class LinkedList:
         # place the second pointer
         for i in range(k - 1):
             second = second.next
-            if second == None:
+            if second is None:
                 raise ValueError(
                     "The number K shouldn't be greateer than the size of the list."
                 )
