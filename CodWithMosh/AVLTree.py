@@ -13,29 +13,28 @@ class AVLTree(object):
             self.left: AVLTree.Node = None
             self.right: AVLTree.Node = None
             self.height: int = 0
-            # self.balance_factor: int = 0
 
         def __repr__(self) -> str:
             return f"Node={self.data}"
 
-        @staticmethod
-        def get_height(node: "AVLTree.Node"):
-            return node.height if node else -1
-
-        @staticmethod
-        def balance_factor(node: "AVLTree.Node"):
-            return AVLTree.Node.get_height(node.left) - AVLTree.Node.get_height(node.right) if node else 0
-
         @property
         def is_leftheavy(self):
-            return AVLTree.Node.balance_factor(self) > 1
+            return AVLTree.balance_factor(self) > 1
 
         @property
         def is_rightheavy(self):
-            return AVLTree.Node.balance_factor(self) < -1
+            return AVLTree.balance_factor(self) < -1
 
     def __init__(self, root_data=None) -> None:
         self.root = AVLTree.Node(root_data)
+
+    @staticmethod
+    def get_height(node: "AVLTree.Node"):
+        return node.height if node else -1
+
+    @staticmethod
+    def balance_factor(node: "AVLTree.Node"):
+        return AVLTree.get_height(node.left) - AVLTree.get_height(node.right) if node else 0
 
     def insert(self, data):
         self.root = self.__insert(data)
@@ -53,18 +52,18 @@ class AVLTree(object):
         else:
             root.right = self.__insert(data, root.right)
 
-        root.height = max(AVLTree.Node.get_height(root.left), AVLTree.Node.get_height(root.right)) + 1
+        root.height = max(AVLTree.get_height(root.left), AVLTree.get_height(root.right)) + 1
 
         if root.is_rightheavy:
-            lbf = AVLTree.Node.balance_factor(root.right)
-            if lbf > 0:
+            left_bf = AVLTree.balance_factor(root.right)
+            if left_bf > 0:
                 # TODO make rotations here
                 print(f"right rotation {root.right}")
             print(f"left rotation {root}")
 
         elif root.is_leftheavy:
-            rbf = AVLTree.Node.balance_factor(root.left)
-            if rbf < 0:
+            right_bf = AVLTree.balance_factor(root.left)
+            if right_bf < 0:
                 # TODO make rotations here
                 print(f"left rotation {root.left}")
             print(f"right rotation {root}")
