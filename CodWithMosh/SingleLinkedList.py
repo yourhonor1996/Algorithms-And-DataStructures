@@ -101,8 +101,7 @@ class LinkedList:
     def get_Kth_node_from_end(self, k):
         first = self.first
         second = first
-        # if k <= 0 or k > self.size:
-        #     return
+
         if k == 1:
             return self.last
 
@@ -110,9 +109,8 @@ class LinkedList:
         for i in range(k - 1):
             second = second.next
             if second is None:
-                raise ValueError(
-                    "The number K shouldn't be greateer than the size of the list."
-                )
+                raise ValueError("The number K shouldn't be greateer than the size of the list.")
+
         # go to the end until your second pointer reaches the end
         while True:
             if second == self.last:
