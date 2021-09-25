@@ -39,7 +39,6 @@ class AVL(object):
         self.root = self.__insert(data)
 
     def __insert(self, data, root: "AVL.Node" = "default"):
-
         if root == AVL.default:
             root = self.root
 
