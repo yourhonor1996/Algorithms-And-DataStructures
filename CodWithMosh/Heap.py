@@ -1,9 +1,12 @@
-import math
+from typing import Union
 
 
 class Heap(object):
     def __init__(self) -> None:
         self.data = []
+
+    def __repr__(self) -> str:
+        return str(self.data)
 
     @property
     def is_empty(self) -> bool:
@@ -89,19 +92,52 @@ class Heap(object):
         if self.is_empty:
             return
 
-        removed_item = self.data.pop(0)
+        if len(self.data) == 1:
+            return self.data.pop(0)
 
+        removed_item = self.data.pop(0)
+        self.data.insert(0, self.data.pop())
         self.bubble_down()
         return removed_item
 
     @staticmethod
-    def heap_sort(arr: list):
+    def somefunc(someparam: Union["Heap", list]):
+        print(someparam)
+
+    def heap_sort(self):
+        pass
+
+    @staticmethod
+    def heap_sort_array(arr):
         heap = Heap()
         for item in arr:
             heap.insert(item)
         for i in range(len(arr)):
             arr[i] = heap.remove()
         return arr
+
+    def heap_sort_self(self):
+        heap = Heap()
+        results = []
+        for item in self.data:
+            heap.insert(item)
+        for i in range(len(self.data)):
+            results.append(heap.remove())
+        return results
+
+
+class PriorityQueue(object):
+    def __init__(self) -> None:
+        self.heap = Heap()
+
+    def __repr__(self) -> str:
+        return str(self.heap.data)
+
+    def add(self, data):
+        self.heap.insert(data)
+
+    def remove(self, data):
+        return self.heap.remove()
 
 
 heap = Heap()
@@ -112,10 +148,16 @@ heap.insert(4)
 heap.insert(22)
 heap.insert(22)
 heap.insert(22)
+# print(heap)
+# heap.a
+# # for i in range(len(heap.data)):
+# #     heap.remove()
 
 a = [3, 6, 26, 1, -4, -63]
+# # print(heap.remove())
 # print(heap.remove())
 # print(heap.remove())
 # print(heap.remove())
-# print(heap.remove())
-print(Heap.heap_sort(a))
+# print(heap.heap_sort())
+# print(Heap.heap_sort(a))
+# Heap.heap_sort(a)
