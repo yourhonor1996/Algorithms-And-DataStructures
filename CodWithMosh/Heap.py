@@ -42,23 +42,20 @@ class Heap(object):
     def larger_child_i(self, node_i):
         if not self.has_left(node_i):
             return node_i
-        
+
         if not self.has_right(node_i):
             return self.left_i(node_i)
-        
-        return  (self.right_i(node_i) 
-                 if self.right(node_i) >= self.left(node_i) 
-                 else self.left_i(node_i))
-        
+
+        return self.right_i(node_i) if self.right(node_i) >= self.left(node_i) else self.left_i(node_i)
+
     def is_valid_parent(self, node_i):
         if not self.has_left(node_i):
             return True
-        
+
         if not self.has_right(node_i):
             return self.data[node_i] >= self.left(node_i)
-        
-        return self.data[node_i] >= max(self.left(node_i), self.right(node_i))
 
+        return self.data[node_i] >= max(self.left(node_i), self.right(node_i))
 
     def bubble_up(self):
         index = len(self.data) - 1
@@ -80,6 +77,7 @@ class Heap(object):
             Heap.swap_list(self.data, index, larger_child_i)
             index = larger_child_i
 
+        return index
 
     def insert(self, value):
         self.data.append(value)
@@ -90,11 +88,21 @@ class Heap(object):
     def remove(self):
         if self.is_empty:
             return
-        
-        self.data.pop(0)
-        self.data.insert(0, self.data.pop(-1))
+
+        removed_item = self.data.pop(0)
 
         self.bubble_down()
+        return removed_item
+
+    @staticmethod
+    def heap_sort(arr: list):
+        heap = Heap()
+        for item in arr:
+            heap.insert(item)
+        for i in range(len(arr)):
+            arr[i] = heap.remove()
+        return arr
+
 
 heap = Heap()
 heap.insert(10)
@@ -102,9 +110,12 @@ heap.insert(5)
 heap.insert(17)
 heap.insert(4)
 heap.insert(22)
+heap.insert(22)
+heap.insert(22)
 
-heap.remove()
-heap.remove()
-heap.remove()
-heap.remove()
-print("done")
+a = [3, 6, 26, 1, -4, -63]
+# print(heap.remove())
+# print(heap.remove())
+# print(heap.remove())
+# print(heap.remove())
+print(Heap.heap_sort(a))
