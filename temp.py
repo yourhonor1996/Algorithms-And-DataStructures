@@ -1,11 +1,3 @@
-import sys
+a = {1:'34', 2:'234'}
 
-a = None
-b = 0
-c = a or b
-d = b or a
-e = a and b
-f = b and a
-a = [1]
-print(a[-1])
-print(f"{c=} {d=} {e=} {f=}")
+print(a.pop(2))

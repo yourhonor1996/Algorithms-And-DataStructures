@@ -1,5 +1,4 @@
-from typing import Type
-
+from typing import Union
 
 class LinkedList:
     class Node:
@@ -8,7 +7,10 @@ class LinkedList:
             self.next: LinkedList.Node = None
 
         def __repr__(self) -> str:
-            return f"*{self.data}*"
+            return f"'{self.data}'"
+
+        def __eq__(self, other: 'LinkedList.Node') -> bool:
+            return self.data == other.data
 
     def __init__(self) -> None:
         self.first: LinkedList.Node = None
@@ -67,7 +69,7 @@ class LinkedList:
     def generator(self):
         index = 0
         current = self.first
-        while current != None:
+        while not current is None:
             yield (index, current)
             current = current.next
             index += 1
@@ -118,26 +120,61 @@ class LinkedList:
             first = first.next
             second = second.next
 
+    def addlast_if_nonexistant(self, data) -> Union["LinkedList.Node", None]:
+        new_node = LinkedList.Node(data)
+        if self.is_empty:
+            self.first = self.last = new_node
+            self.size += 1
+            return new_node
+        else:
+            for i, node in self.generator():
+                if node.data == data:
+                    return None
+                if node.next is None:
+                    node.next = self.last = new_node
+                    self.size += 1
+                    return new_node
 
-ll = LinkedList()
-ll.add_last(1)
-ll.add_last(2)
-ll.add_last(3)
-ll.add_last(4)
-ll.add_last(5)
-ll.add_last(6)
-# print(ll.index_of(36))
-# print(ll)
-# ll.delete_first()
-# print(ll)
-# print(ll.to_array())
-# for item in ll.generator_reversed():
-#     print(item)
-# print(ll.generator_reversed())
-k = 9
-print(ll)
-print(ll.get_Kth_node_from_end(k))
-ll.reverse()
-print(ll)
-# print(ll)
-print(ll.get_Kth_node_from_end(k))
+    def pop(self, data):
+        for i, node in self.generator():
+            if self.is_empty:
+                return
+            else:
+                if self.size == 1:
+                    if not node.data == data:
+                        return
+                    self.first = self.last = None
+                    # self.size -= 1
+                    return node
+                    
+                elif self.first.data == data:
+                    deleted = self.first
+                    self.first = deleted.next
+                    # self.size -= 1
+                    return deleted
+                    
+                elif (not node.next is None) and (node.next.data == data):
+                    deleted = node.next
+                    if self.last == deleted:
+                        self.last = node
+                        
+                    node.next = deleted.next
+                    # self.size -= 1
+                    return deleted
+                self.size -= 1
+                
+            
+
+
+# link = LinkedList()
+# link.add_last(1)
+# link.add_last(2)
+# # link.add_last(3)
+# # link.add_last(5)
+
+
+# link.pop(1)
+# # link.pop(1)
+# # link.pop(2)
+# # link.pop(2)
+# print('done')

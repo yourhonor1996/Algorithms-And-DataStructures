@@ -1,104 +1,82 @@
-from typing import Dict
-from SingleLinkedList import LinkedList
-
-
 class Graph(object):
     class Node(object):
-        def __init__(self, label: str, index: int = -1) -> None:
+        def __init__(self, label:str) -> None:
             self.label = label
-            self.index: int = index
-            self.edges = LinkedList()
-
-        def __repr__(self) -> str:
-            return f"{self.index}-{self.label}"
-        
-        def add_edge(self, index):
-            result = self.edges.addlast_if_nonexistant(index)
-            if result is None:
-                return False
-            return True
-        
-        def remove_edge(self, index):
-            result = self.edges.pop(index)
-            if result is None:
-                return False
-            return True
             
+        def __repr__(self) -> str:
+            return str(self.label)
 
     def __init__(self) -> None:
-        self.nodes: Dict[str, Graph.Node] = {}
+        self.nodes : dict[str, Graph.Node] = {}
+        self.adjacency : dict[Graph.Node, list[Graph.Node]] = {}
 
-    def validate_node(self, label: str):
-        if not self.node_exists(label):
-            print("The node doesn't exist.")
-            return False
-        return True
-
-    def node_exists(self, label: str):
-        return not self.nodes.get(label) is None
-
-    def get_node(self, label: str):
+    def get_node(self, label):
         return self.nodes.get(label)
+
+    def node_exists(self, label):
+        return not self.get_node(label) is None
 
     def validate_edge(self, source: str, to: str):
         if (not self.node_exists(source)) or (not self.node_exists(to)):
             raise Exception("The node doesn't exist.")
 
-    def edge_exists(self, source: str, to: str):
-        self.validate_edge(source, to)
+    def add_node(self, label:str):
+        new_node = Graph.Node(label)
+        if not self.node_exists(label):
+            self.nodes[label] = new_node
+            self.adjacency[new_node] = []
 
+    def add_edge(self, source:str, to:str):
+        self.validate_edge(source, to)
         source_node = self.get_node(source)
-        to_index = self.get_node(to).index
-        return source_node.edges.contains(to_index)
-
-    def add_node(self, label: str):
-        # if node already exists
-        if self.node_exists(label):
-            raise Exception("The node already exists. You cant add a node that already exists")
-
-        new_node = Graph.Node(label, len(self.nodes))
-        self.nodes[label] = new_node
-
-    def remove_node(self, label: str):
-        if not self.validate_node:
-            return
-
-        deleted_node = self.nodes.pop(label)
-        for node in self.nodes.values():
-            node.remove_edge(deleted_node.index)
-
-        return deleted_node
-
-    def add_edge(self, source: str, to: str):
-        self.validate_edge(source, to)
-
         to_node = self.get_node(to)
-        souce_node = self.get_node(source)
-        return souce_node.add_edge(to_node.index)
-
-    def remove_edge(self, source: str, to: str):
-        self.validate_edge(source, to)
-
-        to_node = self.get_node(to)
-        source_node = self.get_node(source)
-        source_node.remove_edge(to_node.index)
-
+        self.adjacency[source_node].append(to_node)
+        
     def show_graph(self) -> str:
         for label, node in self.nodes.items():
-            print(f"Node {label} has nodes {node.edges}")
+            adjacency = self.adjacency[node]
+            if len(adjacency) != 0:
+                print(f"Node {label} is conndected to {adjacency}")
+        
+    def remove_node(self, label):
+        node = self.get_node(label)
+        if node is None:
+            return
+        
+        for n in self.adjacency.keys():
+            try:
+                self.adjacency[n].remove(node)
+            except ValueError:
+                pass
+        
+        self.adjacency.pop(node)
+        self.nodes.pop(node.label)
+
+    def remove_edge(self, source:str, to:str):
+        self.validate_edge(source, to)
+        source_node = self.get_node(source)
+        to_node = self.get_node(to)
+
+        try:
+            self.adjacency[source_node].remove(to_node)
+        except ValueError:
+            pass
 
 
 graph = Graph()
-graph.add_node("p0")
-graph.add_node("p1")
-graph.add_node("p2")
-graph.add_node("p3")
-graph.add_edge("p0", "p1")
-graph.add_edge("p2", "p1")
-graph.add_edge("p3", "p1")
-graph.add_edge("p1", "p2")
-graph.add_edge("p3", "p2")
-graph.remove_edge("p3", "p2")
-# graph.remove_node("p1")
-graph.show_graph()
-print("done")
+graph.add_node('p0')
+graph.add_node('p1')
+graph.add_node('p2')
+graph.add_node('p3')
+graph.add_node('p4')
+graph.add_edge('p0', 'p1')
+graph.add_edge('p0', 'p2')
+graph.add_edge('p3', 'p4')
+graph.add_edge('p3', 'p1')
+
+# graph.remove_edge('p3', 'p4')
+# graph.remove_edge('p3', 'p4')
+# graph.remove_edge('p3', 'p1')
+graph.remove_node('p1')
+graph.remove_node('p1')
+print('done')
