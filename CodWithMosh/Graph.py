@@ -14,7 +14,7 @@ class Graph(object):
         return self.nodes.get(label)
 
     @staticmethod
-    def set_generator(input_set:set):
+    def generator_for_set(input_set: set):
         for item in input_set:
             yield item
 
@@ -82,20 +82,23 @@ class Graph(object):
             if root is None:
                 return
 
-            # if root not in visited:
-            #     results.append(root)
-            #     visited.add(root)
-            # else:
-            #     return
+            #! Mosh's implementation
+            # results.append(root)
+            # visited.add(root)
 
-            # if self.node_has_nochildren(root.label):
-            #     return
+            # for node in self.get_neighbors(root_label):
+            #     if node not in visited:
+            #         _dft_recursion(results, node.label, visited)
+
+            #! My Implementation
+            if root in visited:
+                return
+
             results.append(root)
             visited.add(root)
 
             for node in self.get_neighbors(root_label):
-                if node not in visited:
-                    _dft_recursion(results, node.label, visited)
+                _dft_recursion(results, node.label, visited)
 
         results = []
         _dft_recursion(results, root_label)
@@ -150,7 +153,7 @@ class Graph(object):
         return results
 
     def topological_sort(self):
-        def traverse(stack: list, root_label: str, visited: set = None):
+        def traverse(stack: list, root_label: str, visited:set):
             if visited is None:
                 visited = set()
 
@@ -180,7 +183,7 @@ class Graph(object):
         return results
 
     def has_cycle(self) -> bool:
-        def _has_cycle(root:"Graph.Node", all:set, visitting:set, visited:set):
+        def _has_cycle(root: "Graph.Node", all: set, visitting: set, visited: set):
             all.remove(root)
             visitting.add(root)
 
@@ -191,22 +194,23 @@ class Graph(object):
                     return True
                 if _has_cycle(neighbor, all, visitting, visited):
                     return True
-            
+
             visitting.remove(root)
             visited.add(root)
 
             return False
-        
+
         all = set(self.nodes.values())
         visitting = set()
         visited = set()
-        
-        generator = Graph.set_generator(all)
+
         while len(all) != 0:
+            generator = Graph.generator_for_set(all)
             current = next(generator)
             if _has_cycle(current, all, visitting, visited):
                 return True
         return False
+
 
 graph = Graph()
 # graph.add_node("A")
@@ -219,24 +223,34 @@ graph = Graph()
 # graph.add_edge("D", "C")
 # graph.add_edge("A", "C")
 
-graph.add_node("X")
 graph.add_node("A")
 graph.add_node("B")
-graph.add_node("P")
-# graph.add_node("E")
-graph.add_edge("X", "A")
-graph.add_edge("X", "B")
-graph.add_edge("B", "A")
-graph.add_edge("A", "X")
-graph.add_edge("A", "P")
-graph.add_edge("B", "P")
-# graph.show_graph()
-# results = []
-# print(graph.dft_recursion(root_label="G"))
-# print(graph.node_has_nochildren('A'))
-# print(graph.dft_iteration('A'))
-# print(graph.bft_iteration('A'))
-# print(results)
+graph.add_node("C")
+graph.add_node("D")
+graph.add_node("E")
+graph.add_node("F")
+
+graph.add_edge("A", "F")
+graph.add_edge("A", "B")
+graph.add_edge("A", "D")
+graph.add_edge("B", "C")
+graph.add_edge("B", "E")
+graph.add_edge("C", "D")
+# graph.add_edge("D", "B")
+graph.add_edge("E", "D")
+graph.add_edge("F", "C")
+
+# graph.add_edge('A', 'B')
+# graph.add_edge('A', 'C')
+# graph.add_edge('B', 'D')
+# graph.add_edge('C', 'E')
+# graph.add_edge('D', 'F')
+# graph.add_edge('F', 'F')
+
+graph.show_graph()
+
+# print(graph.dft_recursion("A"))
+# print(graph.dft_iteration("A"))
+# print(graph.bft_iteration("A"))
 # print(graph.topological_sort())
 print(graph.has_cycle())
-# print(graph.topological_sort())
