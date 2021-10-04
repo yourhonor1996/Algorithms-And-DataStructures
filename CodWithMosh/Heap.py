@@ -19,30 +19,30 @@ class Heap(object):
         lis[index2] = temp
 
     @staticmethod
-    def parent(child_index) -> int:
+    def parent_i(child_index) -> int:
         return int((child_index - 1) / 2)
 
     @staticmethod
-    def left_i(node_i):
+    def left_i(node_i : int):
         return node_i * 2 + 1
 
     @staticmethod
-    def right_i(node_i):
+    def right_i(node_i : int):
         return node_i * 2 + 2
 
-    def left(self, node_i):
+    def left(self, node_i : int):
         return self.data[Heap.left_i(node_i)]
 
-    def right(self, node_i):
+    def right(self, node_i : int):
         return self.data[Heap.right_i(node_i)]
 
-    def has_left(self, node_i):
+    def has_left(self, node_i : int):
         return Heap.left_i(node_i) < len(self.data)
 
-    def has_right(self, node_i):
+    def has_right(self, node_i : int):
         return Heap.right_i(node_i) < len(self.data)
 
-    def larger_child_i(self, node_i):
+    def larger_child_i(self, node_i : int):
         if not self.has_left(node_i):
             return node_i
 
@@ -51,7 +51,7 @@ class Heap(object):
 
         return self.right_i(node_i) if self.right(node_i) >= self.left(node_i) else self.left_i(node_i)
 
-    def is_valid_parent(self, node_i):
+    def is_valid_parent(self, node_i : int):
         if not self.has_left(node_i):
             return True
 
@@ -62,12 +62,12 @@ class Heap(object):
 
     def bubble_up(self):
         index = len(self.data) - 1
-        parent_i = Heap.parent(index)
+        parent_i = Heap.parent_i(index)
 
         while index > 0 and self.data[index] > self.data[parent_i]:
             Heap.swap_list(self.data, index, parent_i)
             index = parent_i
-            parent_i = Heap.parent(index)
+            parent_i = Heap.parent_i(index)
 
         return index
 
