@@ -136,33 +136,30 @@ class LinkedList:
                     return new_node
 
     def pop(self, data):
+        if self.is_empty:
+            return
         for i, node in self.generator():
-            if self.is_empty:
-                return
-            else:
-                if self.size == 1:
-                    if not node.data == data:
-                        return
-                    self.first = self.last = None
-                    # self.size -= 1
-                    return node
-                    
-                elif self.first.data == data:
-                    deleted = self.first
-                    self.first = deleted.next
-                    # self.size -= 1
-                    return deleted
-                    
-                elif (not node.next is None) and (node.next.data == data):
-                    deleted = node.next
-                    if self.last == deleted:
-                        self.last = node
-                        
-                    node.next = deleted.next
-                    # self.size -= 1
-                    return deleted
+            if self.size == 1:
+                if not node.data == data:
+                    return
+                self.first = self.last = None
                 self.size -= 1
+                return node
                 
+            elif self.first.data == data:
+                deleted = self.first
+                self.first = deleted.next
+                self.size -= 1
+                return deleted
+                
+            elif node.next.data == data:
+                deleted = node.next
+                if node.next == self.last:
+                    self.last = node
+                node.next = deleted.next
+                self.size -= 1
+                return deleted
+        return
             
 
 
