@@ -133,9 +133,7 @@ class BinaryTree(object):
     def equals(self, other: "BinaryTree") -> bool:
         return BinaryTree.Node.equals(self.root, other.root)
 
-    def is_binarysearchtree(
-        self, root: "BinaryTree.Node" = "default", minimum=None, maximum=None
-    ):
+    def is_binarysearchtree(self, root: "BinaryTree.Node" = "default", minimum=None, maximum=None):
         maximum = maximum or math.inf
         minimum = minimum or -math.inf
 
@@ -148,32 +146,26 @@ class BinaryTree(object):
         if root.data < minimum or root.data > maximum:
             return False
 
-        return self.is_binarysearchtree(
-            root.left, minimum, root.data - 1
-        ) and self.is_binarysearchtree(root.right, root.data + 1, maximum)
+        return self.is_binarysearchtree(root.left, minimum, root.data - 1) and self.is_binarysearchtree(
+            root.right, root.data + 1, maximum
+        )
 
     def swap_root(self):
         temp = self.root.left
         self.root.left = self.root.right
         self.root.right = temp
 
-    def nodes_at_k_distance(
-        self, distance: int, root: "BinaryTree.Node" = "default", results: list = None
-    ):
+    def nodes_at_k_distance(self, distance: int, root: "BinaryTree.Node" = "default", results: list = None):
 
         if root == BinaryTree.default:
             root = self.root
 
         if distance == 0:
-            results.append(root) if results is not None else print(root)
+            results.append(root) if not results is None else print(root)
             return
         else:
-            self.nodes_at_k_distance(
-                distance - 1, root.left, results
-            ) if root.left else None
-            self.nodes_at_k_distance(
-                distance - 1, root.right, results
-            ) if root.right else None
+            self.nodes_at_k_distance(distance - 1, root.left, results) if root.left else None
+            self.nodes_at_k_distance(distance - 1, root.right, results) if root.right else None
             distance -= 1
 
     def traverse_levelorder(self):
@@ -191,7 +183,6 @@ bt.insert(1)
 bt.insert(6)
 bt.insert(8)
 bt.insert(10)
-bt.insert(0)
 
 bt2 = BinaryTree(7)
 bt2.insert(4)
@@ -218,7 +209,8 @@ bt2.insert(10)
 # print(bt.equals(bt2))
 # bt.swap_root()
 # print(bt.is_binarysearchtree())
-mylist = []
-bt.nodes_at_k_distance(2, results=mylist)
-print(mylist)
+# mylist = []
+# bt.nodes_at_k_distance(2, results=mylist)
+# print(mylist)
 # bt.traverse_levelorder()
+print(bt.equals(bt2))
