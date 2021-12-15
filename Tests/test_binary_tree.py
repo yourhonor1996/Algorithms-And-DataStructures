@@ -7,6 +7,15 @@ class TestBinrayTree(unittest.TestCase):
         self.tree = BinaryTree(10)
         self.root = self.tree.root
     
-    def test_insert(self):
+    def test_insert_2(self):
         self.tree.insert(2)
-        self.assertEqual(self.root.left_child == 2)
+        self.assertEqual(self.root.left, 2)
+        
+        self.tree.insert(15)
+        self.assertEqual(self.root.right, 15)
+
+        self.tree.insert(4)
+        self.assertEqual(self.root.left.right, 4)
+        
+        
+        
