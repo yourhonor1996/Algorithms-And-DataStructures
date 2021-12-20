@@ -1,3 +1,6 @@
+from typing import Union
+
+
 class Node:
     def __init__(self, value=None) -> None:
         self.value = value
@@ -39,8 +42,19 @@ class BinaryTree:
                     break
                 current = current.right
 
-    def find(self):
-        pass
+    def find(self, value: int):
+        current = self.root
+        while True:
+            if current == value:
+                return True
+
+            if current is None:
+                return False
+
+            if value < current.value:
+                current = current.left
+            else:
+                current = current.right
 
 
 tree = BinaryTree()
@@ -49,4 +63,10 @@ tree.insert(2)
 tree.insert(3)
 tree.insert(13)
 tree.insert(15)
+tree.insert(65)
+tree.insert(6)
 print('sdf')
+print(tree.find(8))
+print(tree.find(15))
+print(tree.find(699))
+print(tree.find(6))
