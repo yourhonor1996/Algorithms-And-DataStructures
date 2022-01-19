@@ -99,14 +99,18 @@ class BinaryTree:
 
 
 tree = BinaryTree()
-tree.insert(7)
-tree.insert(4)
-tree.insert(9)
-tree.insert(1)
-tree.insert(6)
-tree.insert(8)
-tree.insert(10)
-print('sdf')
-print(tree.do_traverse_pre_order())
-print(tree.do_traverse_in_order())
-print(tree.do_traverse_post_order())
+# tree.insert(7)
+# tree.insert(4)
+# tree.insert(9)
+# tree.insert(1)
+# tree.insert(6)
+# tree.insert(8)
+# tree.insert(10)
+# print('sdf')
+# print(tree.do_traverse_pre_order())
+# print(tree.do_traverse_in_order())
+# print(tree.do_traverse_post_order())
+a = 20
+b = a
+b = 3
+print(a, b)
