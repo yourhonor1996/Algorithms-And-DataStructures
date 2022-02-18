@@ -80,7 +80,7 @@ class BinaryTree:
         results.append(root)
         self.traverse_in_order(root.right, results)
 
-    def traverse_post_order(self, root:Node, results:list):
+    def traverse_post_order(self, root: Node, results: list):
         if root is None:
             return
 
@@ -99,17 +99,6 @@ class BinaryTree:
 
 
 tree = BinaryTree()
-# tree.insert(7)
-# tree.insert(4)
-# tree.insert(9)
-# tree.insert(1)
-# tree.insert(6)
-# tree.insert(8)
-# tree.insert(10)
-# print('sdf')
-# print(tree.do_traverse_pre_order())
-# print(tree.do_traverse_in_order())
-# print(tree.do_traverse_post_order())
 a = 20
 b = a
 b = 3
